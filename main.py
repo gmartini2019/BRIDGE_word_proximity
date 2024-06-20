@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 from visualize_network import visualize_network
 from nearest_neighbors import nearest_neighbors
+from scipy.spatial import distance_matrix
 
 def main():
     """
@@ -21,7 +22,18 @@ def main():
 
     try:
         # Load the distance matrix from the specified file
-        dist_df = pd.read_csv(file_path)
+        print("Getting the df")
+        df = pd.read_excel(file_path)
+
+        split_columns = df['global_encoding'].str.split(':', expand=True)
+        split_columns.columns = [f'dim_{i+1}' for i in range(split_columns.shape[1])]
+        new_df = pd.concat([df['word_raw'], split_columns], axis=1)
+
+        embedding_columns = [f'dim_{i+1}' for i in range(128)]
+        new_df[embedding_columns] = new_df[embedding_columns].apply(pd.to_numeric, errors='coerce')
+        embeddings = new_df[embedding_columns].values
+        dist_matrix = distance_matrix(embeddings, embeddings)
+        dist_df = pd.DataFrame(dist_matrix, index=new_df['word_raw'], columns=new_df['word_raw'])
 
         # Retrieve the nearest neighbors
         neighbors = nearest_neighbors(word, n, dist_df)
@@ -30,7 +42,7 @@ def main():
         # Visualize the network
         visualize_network(word, n, dist_df) 
 
-        print(f"Network graph saved in 'Graphs/{word}_network.png'")
+        print(f"Network graph saved in 'Graphs/{word}_{n}_network.png'")
     except Exception as e:
         print(f"An error occurred: {e}")
 

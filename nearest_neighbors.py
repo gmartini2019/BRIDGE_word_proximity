@@ -13,10 +13,6 @@ def nearest_neighbors(word, n, dist_df):
           from the input word. If the word is not found, returns a string message.
     """
 
-    # Check if the word is in the index of the DataFrame
-    if word not in dist_df.index:
-        return "Word not found in dataset."
-
     # Retrieve the row corresponding to 'word', which contains distances to all other words
     distances = dist_df.loc[word]
 

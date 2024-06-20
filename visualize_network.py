@@ -46,5 +46,5 @@ def visualize_network(word, n,  dist_df):
     
     # Save the plot to the 'Graphs' folder
     plt.axis('off')  # Hide axes
-    plt.savefig(f'Graphs/{word}_network.png', format='png')
+    plt.savefig(f'Graphs/{word}_{n}_network.png', format='png')
     plt.close()  # Close the plot to free memory
