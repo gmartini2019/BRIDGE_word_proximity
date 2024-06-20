@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "bridge-word-proximity"
+version = "0.1.0"
+description = "bridge_word_proximity allows the analysis and visualization of the proximity of the words analyzed by the BRIDGE models"
+authors = ["Giulio Martini"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
