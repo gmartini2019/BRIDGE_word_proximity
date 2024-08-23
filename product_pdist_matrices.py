@@ -5,7 +5,7 @@ import glob
 import sys
 
 
-def compute_distance_matrices(base_name: str, folder_path: str):
+def compute_distance_matrices(base_name: str, folder_path: str, dimensions: int):
     checkpoints = []
     csv_files = glob.glob(folder_path + '/' + base_name)
     print(folder_path + '/' + base_name)
@@ -18,7 +18,7 @@ def compute_distance_matrices(base_name: str, folder_path: str):
         split_columns = dataframe['global_encoding'].str.split(':', expand=True)
         split_columns.columns = [f'dim_{i+1}' for i in range(split_columns.shape[1])]
         new_df = pd.concat([dataframe['word_raw'], split_columns], axis=1)
-        embedding_columns = [f'dim_{i+1}' for i in range(64)]
+        embedding_columns = [f'dim_{i+1}' for i in range(dimensions)]
         new_df[embedding_columns] = new_df[embedding_columns].apply(pd.to_numeric, errors='coerce')
         embeddings = new_df[embedding_columns].values
         dist_matrix = distance_matrix(embeddings, embeddings)
@@ -37,7 +37,7 @@ def main():
     folder_path = sys.argv[2]
     dimensions = int(sys.argv[3]) 
 
-    pdist_matrices = compute_distance_matrices(base_name, folder_path)
+    pdist_matrices = compute_distance_matrices(base_name, folder_path, dimensions)
 
     for matrix in pdist_matrices:
         epoch = matrix['epoch']

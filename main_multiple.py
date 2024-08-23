@@ -45,6 +45,7 @@ def nearest_neighbors(word, n, dist_df):
     
     # Return the list of nearest neighbors
     return neighbors
+
 from scipy.spatial import distance_matrix
 import matplotlib.pyplot as plt
 
@@ -102,7 +103,6 @@ def load_csv_dataframes(directory):
 def find_latest_epoch_csv(directory):
     files = os.listdir(directory)
 
-    print(files)
     
     max_epoch = -1
     latest_file = None
@@ -135,7 +135,6 @@ def load_csv_dataframes(directory):
 def find_latest_epoch_csv(directory):
     files = os.listdir(directory)
 
-    print(files)
     
     max_epoch = -1
     latest_file = None
